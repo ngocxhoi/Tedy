@@ -1,7 +1,13 @@
 import { extractText, getDocumentProxy } from "unpdf";
-import gemini from "~~/shared/utils/tools/gemini";
 
 export default defineEventHandler(async (event) => {
+  const { gemini } = event.context;
+  if (!gemini) {
+    throw createError({
+      statusCode: 500,
+      message: "Gemini API is not available",
+    });
+  }
   const formData = await readFormData(event);
   const file = formData.get("pdf") as File;
   if (!file) {

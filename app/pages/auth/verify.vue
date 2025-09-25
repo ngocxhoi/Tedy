@@ -4,7 +4,7 @@
       class="bg-main-card dark:bg-dark-main-card p-6 rounded-lg shadow-md text-center"
     >
       <div class="w-full flex items-center justify-center">
-        <AppLogo />
+        <AppLogo size="medium" />
       </div>
       <h2 class="text-2xl font-bold mb-4">Verify Your Email</h2>
       <p class="text-gray-600 mb-6">

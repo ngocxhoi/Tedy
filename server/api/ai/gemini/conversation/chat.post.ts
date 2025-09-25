@@ -1,6 +1,11 @@
-import gemini from "~~/shared/utils/tools/gemini";
-
 export default defineEventHandler(async (event): Promise<ChatMessage> => {
+  const { gemini } = event.context;
+  if (!gemini) {
+    throw createError({
+      statusCode: 500,
+      message: "Gemini API is not available",
+    });
+  }
   const { inp } = (await readBody(event)) as { inp: string };
   if (!inp) {
     throw createError({

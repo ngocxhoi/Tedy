@@ -1,8 +1,14 @@
 import { UploadApiResponse } from "cloudinary";
-import { effect } from "vue";
-import cloudinary from "~~/shared/utils/tools/cloudinary";
 
 export default defineEventHandler(async (event) => {
+  const cloudinary = event.context.cloudinary;
+  if (!cloudinary) {
+    throw createError({
+      statusCode: 500,
+      message: "Cloudinary not configured",
+    });
+  }
+
   const formData = await readFormData(event);
   const file = formData.get("image") as File;
   if (!file) {

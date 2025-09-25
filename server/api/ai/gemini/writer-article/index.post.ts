@@ -1,7 +1,14 @@
 import { type SchemaWriterArticle } from "~~/lib/zod/writer";
-import gemini from "~~/shared/utils/tools/gemini";
 
 export default defineEventHandler(async (event) => {
+  const { gemini } = event.context;
+  if (!gemini) {
+    throw createError({
+      statusCode: 500,
+      message: "Gemini API is not available",
+    });
+  }
+
   const body = (await readBody(event)) as SchemaWriterArticle;
 
   if (!body.topic || !body.length) {

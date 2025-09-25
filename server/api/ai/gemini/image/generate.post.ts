@@ -1,8 +1,15 @@
 import { SchemaImageGenerator } from "~~/lib/zod/image";
-import gemini from "~~/shared/utils/tools/gemini";
 import * as fs from "node:fs";
 
 export default defineEventHandler(async (event) => {
+  const { gemini } = event.context;
+  if (!gemini) {
+    throw createError({
+      statusCode: 500,
+      message: "Gemini API is not available",
+    });
+  }
+
   const { prompt, type } = (await readBody(event)) as SchemaImageGenerator;
 
   if (!prompt || !type) {

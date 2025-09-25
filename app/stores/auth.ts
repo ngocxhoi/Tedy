@@ -81,8 +81,14 @@ export const useMyAuthStore = defineStore(
       const data = await authClient.signUp.email({
         ...credentials,
         fetchOptions: {
-          onSuccess: () => {
-            navigateTo("/auth/verify");
+          onSuccess: async ({ data }) => {
+            await $fetch("/api/db/create-limit", {
+              method: "POST",
+              body: {
+                userId: data.user?.id,
+              },
+            });
+            await navigateTo("/auth/verify");
           },
         },
       });
