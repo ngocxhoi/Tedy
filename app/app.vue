@@ -21,7 +21,7 @@
         <LayoutFooter />
       </div>
       <template v-else>
-        <NuxtPage />
+        <NuxtPage keepalive />
       </template>
     </UApp>
   </div>

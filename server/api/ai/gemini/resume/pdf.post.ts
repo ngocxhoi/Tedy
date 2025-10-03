@@ -1,11 +1,11 @@
 import { extractText, getDocumentProxy } from "unpdf";
 
-export default defineEventHandler(async (event) => {
+export default defineWrappedResponseHandler(async (event) => {
   const { gemini } = event.context;
   if (!gemini) {
     throw createError({
       statusCode: 500,
-      message: "Gemini API is not available",
+      statusMessage: "Gemini API is not available",
     });
   }
   const formData = await readFormData(event);
@@ -13,7 +13,7 @@ export default defineEventHandler(async (event) => {
   if (!file) {
     throw createError({
       statusCode: 400,
-      message: "No image file provided",
+      statusMessage: "No image file provided",
     });
   }
 

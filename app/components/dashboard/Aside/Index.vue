@@ -64,7 +64,12 @@
       <p class="text-xs text-gray-600 dark:text-gray-300">
         {{ token }} / 5 tokens left
       </p>
-      <UProgress v-model="token" :max="5" color="neutral" size="sm" />
+      <UProgress
+        :model-value="Number(token)"
+        :max="5"
+        color="neutral"
+        size="sm"
+      />
       <UButton
         block
         label="Get more token"
@@ -79,5 +84,5 @@
 import { AsideLinks } from "~/assets/data/route";
 
 const asideLinks = AsideLinks;
-const token = ref(5);
+const token = useCookie("tokens");
 </script>

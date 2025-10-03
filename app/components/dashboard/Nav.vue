@@ -79,7 +79,8 @@
                   class="mx-2 inline size-0.5 fill-current"
                   aria-hidden="true"
                 >
-                  <circle cx="1" cy="1" r="1" /></svg
+                  <circle cx="1" cy="1" r="1" />
+                </svg>
                 >Join us in Denver from June 7 – 9 to see what’s coming next.
               </p>
               <a
@@ -136,21 +137,25 @@
 
 <script lang="ts" setup>
 import type { DropdownMenuItem } from "@nuxt/ui";
+import { LazySettingModal } from "#components";
 
 const { user } = storeToRefs(useMyAuthStore());
+const { openSetting } = storeToRefs(useMyStateStore());
 
+const overlay = useOverlay();
+
+const modal = overlay.create(LazySettingModal);
 const items = ref<DropdownMenuItem[]>([
   {
     label: "Profile",
     icon: "i-lucide-user",
   },
   {
-    label: "Billing",
-    icon: "i-lucide-credit-card",
-  },
-  {
     label: "Settings",
     icon: "i-lucide-cog",
+    onClick: () => {
+      modal.open();
+    },
   },
   {
     label: "Sign Out",

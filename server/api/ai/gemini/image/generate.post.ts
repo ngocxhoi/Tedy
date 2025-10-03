@@ -6,7 +6,7 @@ export default defineEventHandler(async (event) => {
   if (!gemini) {
     throw createError({
       statusCode: 500,
-      message: "Gemini API is not available",
+      statusMessage: "Gemini API is not available",
     });
   }
 
@@ -15,7 +15,7 @@ export default defineEventHandler(async (event) => {
   if (!prompt || !type) {
     throw createError({
       statusCode: 400,
-      message: "Prompt and type are required",
+      statusMessage: "Prompt and type are required",
     });
   }
 

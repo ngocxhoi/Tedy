@@ -210,7 +210,7 @@ async function onSubmit(event: FormSubmitEvent<SchemaRegister>) {
   } catch (error: any) {
     toast.add({
       title: error.code || "Error",
-      description: error.message || "Something went wrong.",
+      description: formatErrorMessage(error.message) || "Something went wrong.",
       color: "error",
     });
     if (error.code == "EMAIL_NOT_VERIFIED") navigateTo("/auth/verify");

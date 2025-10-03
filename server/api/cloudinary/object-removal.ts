@@ -1,11 +1,11 @@
 import { UploadApiResponse } from "cloudinary";
 
-export default defineEventHandler(async (event) => {
+export default defineWrappedResponseHandler(async (event) => {
   const cloudinary = event.context.cloudinary;
   if (!cloudinary) {
     throw createError({
       statusCode: 500,
-      message: "Cloudinary not configured",
+      statusMessage: "Cloudinary not configured",
     });
   }
 
@@ -15,7 +15,7 @@ export default defineEventHandler(async (event) => {
   if (!title || !file) {
     throw createError({
       statusCode: 400,
-      message: "Title and image file are required",
+      statusMessage: "Title and image file are required",
     });
   }
 

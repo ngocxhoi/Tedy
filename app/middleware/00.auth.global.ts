@@ -11,6 +11,8 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     isLoggedIn = !!data;
   }
 
+  if (!isLoggedIn && to.path == "/auth/verify") return;
+
   if (!isLoggedIn && to.path != "/" && to.path != "/auth") {
     return navigateTo("/auth");
   }

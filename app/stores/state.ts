@@ -5,6 +5,7 @@ export const useMyStateStore = defineStore("states", {
     verify: false,
     loginForm: true,
     chatId: null,
+    openSetting: false,
   }),
 
   actions: {

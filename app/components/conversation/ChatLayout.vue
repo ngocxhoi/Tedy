@@ -121,7 +121,7 @@ async function addChat(inp: string) {
     console.error(error);
     toast.add({
       title: "Failed to send message",
-      description: error.message,
+      description: formatErrorMessage(error.message),
       color: "error",
       icon: "i-lucide-circle-x",
     });

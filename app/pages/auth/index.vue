@@ -102,7 +102,9 @@ useSeoMeta({
 const route = useRoute();
 const router = useRouter();
 
-const isLoginForm = ref(route.query.form == "login");
+const isLoginForm = ref(
+  !route.query.form ? true : route.query.form === "login"
+);
 
 watch(isLoginForm, (newVal) => {
   const query = { form: newVal ? "login" : "register" };

@@ -11,6 +11,9 @@ export const useMyAuthStore = defineStore(
 
     async function getSession() {
       const { data } = await authClient.getSession();
+      const token = await $fetch<number>("/api/db/get-limit");
+      useCookie("tokens").value = String(token);
+
       session.value = data;
       return data;
     }

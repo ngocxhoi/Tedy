@@ -3,11 +3,11 @@ import db from "~~/lib/drizzle";
 import { userApiLimit } from "~~/lib/drizzle/db/api-limit";
 
 export default defineEventHandler(async (event): Promise<number> => {
-  const { userId } = event.context.auth;
+  const userId = event.context.userId;
   if (!userId) {
     throw createError({
       statusCode: 401,
-      message: "Unauthorized",
+      statusMessage: "Unauthorized",
     });
   }
 
@@ -17,17 +17,6 @@ export default defineEventHandler(async (event): Promise<number> => {
     .where(eq(userApiLimit.userId, userId));
 
   const { count } = apiLimit[0];
-  if (!count || count === 0) {
-    throw createError({
-      statusCode: 400,
-      message: "API limit reached.",
-    });
-  }
 
-  await db
-    .update(userApiLimit)
-    .set({ count: count - 1 })
-    .where(eq(userApiLimit.userId, userId));
-
-  return count ?? 0;
+  return count || 0;
 });

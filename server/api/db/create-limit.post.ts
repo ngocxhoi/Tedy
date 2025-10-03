@@ -5,7 +5,7 @@ export default defineEventHandler(async (event) => {
   if (!db) {
     throw createError({
       statusCode: 500,
-      message: "Database is not available",
+      statusMessage: "Database is not available",
     });
   }
 
@@ -14,7 +14,7 @@ export default defineEventHandler(async (event) => {
   if (!userId) {
     throw createError({
       statusCode: 400,
-      message: "User ID is required",
+      statusMessage: "User ID is required",
     });
   }
 

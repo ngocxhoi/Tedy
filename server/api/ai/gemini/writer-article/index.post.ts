@@ -1,11 +1,11 @@
 import { type SchemaWriterArticle } from "~~/lib/zod/writer";
 
-export default defineEventHandler(async (event) => {
+export default defineWrappedResponseHandler(async (event) => {
   const { gemini } = event.context;
   if (!gemini) {
     throw createError({
       statusCode: 500,
-      message: "Gemini API is not available",
+      statusMessage: "Gemini API is not available",
     });
   }
 
@@ -14,7 +14,7 @@ export default defineEventHandler(async (event) => {
   if (!body.topic || !body.length) {
     throw createError({
       statusCode: 400,
-      message: "Topic and length are required",
+      statusMessage: "Topic and length are required",
     });
   }
 

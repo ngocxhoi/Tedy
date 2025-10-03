@@ -1,36 +1,38 @@
-export default defineEventHandler(async (event): Promise<ChatMessage> => {
-  const { gemini } = event.context;
-  if (!gemini) {
-    throw createError({
-      statusCode: 500,
-      message: "Gemini API is not available",
-    });
-  }
-  const { inp } = (await readBody(event)) as { inp: string };
-  if (!inp) {
-    throw createError({
-      statusCode: 400,
-      message: "Input is required",
-    });
-  }
+export default defineWrappedResponseHandler(
+  async (event): Promise<ChatMessage> => {
+    const { gemini } = event.context;
+    if (!gemini) {
+      throw createError({
+        statusCode: 500,
+        statusMessage: "Gemini API is not available",
+      });
+    }
+    const { inp } = (await readBody(event)) as { inp: string };
+    if (!inp) {
+      throw createError({
+        statusCode: 400,
+        statusMessage: "Input is required",
+      });
+    }
 
-  const res = await gemini.models.generateContent({
-    model: "gemini-2.5-flash",
-    contents: [
-      {
-        role: "model",
-        parts: [
-          {
-            text: "You are a helpful assistant. Your response content should be beautiful HTML with tailwindcss for style of UI to display and no background color and alway has two type light and dark mode.",
-          },
-        ],
-      },
-      { role: "user", parts: [{ text: inp }] },
-    ],
-  });
+    const res = await gemini.models.generateContent({
+      model: "gemini-2.5-flash",
+      contents: [
+        {
+          role: "model",
+          parts: [
+            {
+              text: "You are a helpful assistant. Your response content should be beautiful HTML with tailwindcss for style of UI to display and no background color and alway has two type light and dark mode.",
+            },
+          ],
+        },
+        { role: "user", parts: [{ text: inp }] },
+      ],
+    });
 
-  return {
-    role: "system",
-    content: htmlFormat(res.candidates?.[0]?.content?.parts?.[0]?.text || ""),
-  };
-});
+    return {
+      role: "system",
+      content: htmlFormat(res.candidates?.[0]?.content?.parts?.[0]?.text || ""),
+    };
+  }
+);

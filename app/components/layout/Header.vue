@@ -51,6 +51,18 @@
             >
               <UAvatar size="2xl" icon="i-lucide-user" alt="User avatar" />
             </UDropdownMenu>
+
+            <UModal
+              v-model="openSetting"
+              :overlay="false"
+              title="Modal without overlay"
+            >
+              <UButton label="Open" color="neutral" variant="subtle" />
+
+              <template #body>
+                <Placeholder class="h-48" />
+              </template>
+            </UModal>
           </template>
 
           <button
@@ -126,10 +138,12 @@ import { HeaderData } from "~/assets/data/route";
 import type { DropdownMenuItem } from "@nuxt/ui";
 
 const headerData = HeaderData;
-const { session } = useMyAuthStore();
+const authStore = useMyAuthStore();
+const { session } = storeToRefs(authStore);
 
 const navbarOpen = ref(false);
 const sticky = ref(false);
+const openSetting = ref(false);
 
 const items = ref<DropdownMenuItem[]>([
   {
@@ -137,18 +151,17 @@ const items = ref<DropdownMenuItem[]>([
     icon: "i-lucide-user",
   },
   {
-    label: "Billing",
-    icon: "i-lucide-credit-card",
-  },
-  {
     label: "Settings",
     icon: "i-lucide-cog",
+    onClick: () => {
+      openSetting.value = true;
+    },
   },
   {
     label: "Sign Out",
     icon: "i-lucide-log-out",
     onClick: () => {
-      useMyAuthStore().signOut();
+      authStore.signOut();
     },
     color: "error",
   },

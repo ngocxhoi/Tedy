@@ -103,7 +103,7 @@ async function handleSubmit() {
     console.error(error);
     toast.add({
       title: "Failed to generate image",
-      description: error.message,
+      description: formatErrorMessage(error.message),
       color: "error",
       icon: "i-lucide-circle-x",
     });
