@@ -62,20 +62,30 @@
       class="w-full border-t py-6 px-3 border-gray-200 sm:translate-x-0 dark:border-gray-700 space-y-3"
     >
       <p class="text-xs text-gray-600 dark:text-gray-300">
-        {{ token }} / 5 tokens left
+        {{ token }} / {{ maxTokens }} tokens left
       </p>
       <UProgress
         :model-value="Number(token)"
-        :max="5"
+        :max="maxTokens"
         color="neutral"
         size="sm"
       />
-      <UButton
-        block
-        label="Get more token"
-        icon="i-lucide-send"
-        color="error"
-      />
+      <UModal
+        v-model:open="plansModal"
+        :close="{ onClick: () => (plansModal = false) }"
+        fullscreen
+      >
+        <UButton
+          block
+          label="Get more token"
+          variant="subtle"
+          class="cursor-pointer"
+          @click="plansModal = true"
+        />
+        <template #body>
+          <DashboardPricingPlans @close="plansModal = false" />
+        </template>
+      </UModal>
     </div>
   </aside>
 </template>
@@ -85,4 +95,9 @@ import { AsideLinks } from "~/assets/data/route";
 
 const asideLinks = AsideLinks;
 const token = useCookie("tokens");
+const plansModal = ref(false);
+const plan = useCookie("plan");
+const maxTokens = computed(() =>
+  plan.value === "free" ? 15 : plan.value === "pro" ? 30 : 100
+);
 </script>

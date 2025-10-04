@@ -44,4 +44,34 @@ const updateApiLimit = async (userId: string) => {
   return count - 1;
 };
 
-export { getApiLimit, updateApiLimit };
+const subscribeApiLimit = async (
+  userId: string,
+  tokens: number,
+  plan: string
+) => {
+  if (!userId) {
+    throw createError({
+      statusCode: 401,
+      statusMessage: "Unauthorized",
+    });
+  }
+
+  const apiLimit = await db
+    .select({ count: userApiLimit.count })
+    .from(userApiLimit)
+    .where(eq(userApiLimit.userId, userId));
+  const { count } = apiLimit[0];
+
+  await db
+    .update(userApiLimit)
+    .set({
+      count: (count || 0) + tokens,
+      pricingPlan: plan as "free" | "pro" | "custom",
+      updatedAt: new Date(),
+    })
+    .where(eq(userApiLimit.userId, userId));
+
+  return (count || 0) + tokens;
+};
+
+export { getApiLimit, updateApiLimit, subscribeApiLimit };

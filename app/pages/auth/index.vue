@@ -24,7 +24,7 @@
           </div>
 
           <div
-            class="bg-main-card dark:bg-dark-main-card rounded-2xl shadow-xl border border-main-border dark:border-dark-main-border p-8"
+            class="dark:bg-dark-main-card rounded-2xl shadow-xl border border-main-border dark:border-dark-main-border p-8"
           >
             <div class="space-y-6">
               <div

@@ -11,12 +11,13 @@ export default defineEventHandler(async (event) => {
       // const token = await updateApiLimit(event.context.userId);
       // event.context.tokens = token;
     } else {
-      if (!event.path.startsWith("/api/auth"))
+      if (!event.path.startsWith("/api/auth")) {
+        sendRedirect(event, "/auth");
         return createError({
           statusCode: 401,
-          statusMessage: "Unauthorized",
-          message: "You must be logged in to access this resource.",
+          statusMessage: "You must be logged in to access this resource.",
         });
+      }
     }
   }
 

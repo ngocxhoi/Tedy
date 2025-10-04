@@ -140,7 +140,6 @@ import type { DropdownMenuItem } from "@nuxt/ui";
 import { LazySettingModal } from "#components";
 
 const { user } = storeToRefs(useMyAuthStore());
-const { openSetting } = storeToRefs(useMyStateStore());
 
 const overlay = useOverlay();
 
